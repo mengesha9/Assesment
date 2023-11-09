@@ -8,6 +8,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.VisualBasic;
 
 namespace Assesment.Application.Features.Product.Handler.Command;
 
@@ -30,7 +31,8 @@ public class ProductDeleteCommandHandler : IRequestHandler<ProductDeleteCommand,
             return Unit.Value;
 
         }
-        await _productRepository.DeleteAsync(request.ProductDeleteDto.Id);
+        var entity =  await _productRepository.GetAsync(request.ProductDeleteDto.Id);
+        await _productRepository.DeleteAsync(entity);
         await _productRepository.SaveChangesAsync();
 
         return Unit.Value;

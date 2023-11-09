@@ -1,11 +1,10 @@
 using Assesment.Application.DTOs.User;
+using Assesment.Application.Features.User.Request.Command;
+using Assesment.Application.Features.User.Request.Querie;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SocialSync.Application.DTOs.Authentication;
-using SocialSync.Application.Features.Authentication.Requests.Commands;
-using SocialSync.Application.Features.Authentication.Requests.Queries;
 
-namespace SocialSync.WebApi.Controller;
+namespace Assesment.WebApi.Controller;
 
 [ApiController]
 [Route("api/auth")]
@@ -13,7 +12,7 @@ public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public AuthenticationController(IMediator mediator)
+    public UserController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -22,7 +21,7 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<UserLoginDto>> Register([FromBody] UserRegisterDto request)
     {
-        var response = await _mediator.Send(new UserRegistrationCommand { RegisterUserDto = request });
+        var response = await _mediator.Send(new UserRegistrationCommand { UserRegisterDto = request });
         return Ok(response);
     }
 
@@ -31,7 +30,7 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<UserLoginDto>> Login([FromBody] UserLoginDto request)
     {
-        var response = await _mediator.Send(new LoginUserRequest { LoginUserDto = request });
+        var response = await _mediator.Send(new UserLoginCommand { UserLoginDto = request });
         return Ok(response);
     }
     #endregion

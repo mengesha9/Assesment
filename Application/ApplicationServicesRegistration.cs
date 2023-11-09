@@ -1,16 +1,19 @@
-using System.Reflection;
 using MediatR;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace Assesment.Application;
-
-public static class ApplicationServicesRegistration
+namespace Assesment.Application
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static class ApplicationServicesRegistration
     {
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddMediatR(Assembly.GetExecutingAssembly());
+        public static IServiceCollection AddApplication(this Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+        {
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        return services;
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            return services;
+        }
     }
 }

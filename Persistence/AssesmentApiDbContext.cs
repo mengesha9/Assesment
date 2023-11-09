@@ -25,9 +25,10 @@ namespace Assesment.Persistence
                 .HasForeignKey(p => p.UserId);
 
             builder.Entity<Product>()
-                .HasOne(p => p.Catagory)
+                .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
         }
     }
 }
+

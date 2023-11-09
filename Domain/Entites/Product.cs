@@ -14,6 +14,7 @@ public class  Product : BaseDomainEntity
     public User User { get; set; }
 
     public Catagory Category  {get;set;}
+    public int CategoryId {get;set;}
 
 
 }
