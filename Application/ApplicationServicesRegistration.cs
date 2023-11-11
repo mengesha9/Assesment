@@ -7,11 +7,10 @@ namespace Assesment.Application
 {
     public static class ApplicationServicesRegistration
     {
-        public static IServiceCollection AddApplication(this Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediatR(typeof(ApplicationServicesRegistration).GetTypeInfo().Assembly());
+            services.AddAutoMapper(typeof(ApplicationServicesRegistration).GetTypeInfo().Assembly);
 
             return services;
         }

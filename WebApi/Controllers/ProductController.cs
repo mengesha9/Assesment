@@ -34,6 +34,14 @@ public class ProudctController:ControllerBase
         return Ok(response);
     }
 
+     [HttpGet(template:"Search")]
+    public async Task<ActionResult<ProductDto>> Get(string  name)
+    {
+        var response = await _mediator.Send(new SearchProductRequest{Name = name});
+        return Ok(response);
+    }
+    
+
     [HttpPatch(template:"Update")]
       public async Task<ActionResult> Update([FromBody] ProductUpdateDto request)
     {
@@ -58,3 +66,4 @@ public class ProudctController:ControllerBase
 
 
 }
+

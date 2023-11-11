@@ -3,9 +3,9 @@ using Assesment.Domain.Entites;
 
 namespace Assesment.Application.Contracts.Persistence;
 
-public interface ICatagoryRepository : IGenericRepository<Catagory> 
+public interface ICatagoryRepository : IGenericRepository<Category> 
 {
-        Task<Catagory> GetNameAsync(string name);
-
-    
+        Task<Category>  GetNameAsync(string name);
+       
+          
 }
