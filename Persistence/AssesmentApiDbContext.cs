@@ -7,7 +7,7 @@ namespace Assesment.Persistence
     public class AssesmentApiDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<Catagory> Catagories { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users {get;set;}
 
         public AssesmentApiDbContext(DbContextOptions<AssesmentApiDbContext> options) : base(options)
@@ -28,6 +28,11 @@ namespace Assesment.Persistence
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
+        }
+
+        public IEnumerable<object> GetAllProducts()
+        {
+            return   Products;
         }
     }
 }
