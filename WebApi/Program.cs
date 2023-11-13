@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Assesment.Infrastructure.JWT;
-
+using Inststructrue
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -77,7 +77,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = "your-issuer",
         ValidAudience = "your-audience",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes())
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes()
     };
 
 
