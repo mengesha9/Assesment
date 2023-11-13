@@ -1,12 +1,12 @@
 
 
-using Assesment.Application.DTOs.Product;
+using Assesment.Application.DTOs.Products;
 using MediatR;
 
-namespace Assesment.Application.Features.Product.Request.command;
+namespace Assesment.Application.Features.Products.Request.command;
 public class ProductCreateCommand:IRequest<Unit>
 {
-    public ProductCreateDto ProductCreateDto{get;set;}
+    public ProductDto ProductDto{get;set;}
 
 
 }

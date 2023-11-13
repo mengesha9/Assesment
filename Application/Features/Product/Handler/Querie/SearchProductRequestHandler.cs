@@ -1,7 +1,7 @@
 
 
 using Assesment.Application.Contracts.Persistence;
-using Assesment.Application.DTOs.Product;
+using Assesment.Application.DTOs.Products;
 using Assesment.Application.Features.Product.Request.Querie;
 using AutoMapper;
 using MediatR;

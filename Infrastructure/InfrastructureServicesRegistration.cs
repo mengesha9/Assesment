@@ -25,31 +25,33 @@ public static class InfrastructureServicesRegistration
         return services;
     }
 
-    public static IServiceCollection RegisterAuthenticationServices(
-        this IServiceCollection services,
-        IConfiguration configuration
-    )
+   public static IServiceCollection RegisterAuthenticationServices(
+    this IServiceCollection services,
+    IConfiguration configuration
+)
+{
+    services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+    services.AddScoped<IJwtGenerator, JwtGenerator>();
+
+    var jwtSettings = configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>();
+    if (jwtSettings != null)
     {
-        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-        services.AddScoped<IJwtGenerator, JwtGenerator>();
-
         services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-          .AddJwtBearer(options =>
-          {
-              var jwtSettings = configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()!;
-
-              options.TokenValidationParameters = new TokenValidationParameters
-              {
-                  ValidateIssuer = true,
-                  ValidateAudience = true,
-                  ValidateLifetime = true,
-                  ValidateIssuerSigningKey = true,
-                  ValidIssuer = jwtSettings.Issuer,
-                  ValidAudience = jwtSettings.Audience,
-                  IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
-              };
-          });
-
-        return services;
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
+                };
+            });
     }
+
+    return services;
+}
 }

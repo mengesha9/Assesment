@@ -1,7 +1,7 @@
 
 
 using Assesment.Application.Contracts.Persistence;
-using Assesment.Application.DTOs.Product.Validation;
+using Assesment.Application.DTOs.Products.Validation;
 using Assesment.Application.Features.Product.Request.command;
 using AutoMapper;
 using FluentValidation;
@@ -33,7 +33,6 @@ public class ProductDeleteCommandHandler : IRequestHandler<ProductDeleteCommand,
         }
         var entity =  await _productRepository.GetAsync(request.ProductDeleteDto.Id);
         await _productRepository.DeleteAsync(entity);
-        await _productRepository.SaveChangesAsync();
 
         return Unit.Value;
 

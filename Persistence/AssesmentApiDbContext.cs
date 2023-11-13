@@ -30,10 +30,7 @@ namespace Assesment.Persistence
                 .HasForeignKey(p => p.CategoryId);
         }
 
-        public IEnumerable<object> GetAllProducts()
-        {
-            return   Products;
-        }
+    
     }
 }
 

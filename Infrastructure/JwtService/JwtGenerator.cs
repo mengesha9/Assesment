@@ -18,34 +18,34 @@ public class JwtGenerator : IJwtGenerator
         _jwtSettings = jwtOptions.Value;
     }
 
-    public string Generate(User user)
+public string Generate(User user)
+{
+    var signingCredentials = new SigningCredentials(
+        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
+        SecurityAlgorithms.HmacSha256Signature
+    );
+
+    var claims = new List<Claim>
     {
-        // Generate signing signing credentials
-        var signingCredentials = new SigningCredentials(
-            // Since we will also be parsing the token for authorization later on, will use symmetic security key
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
-            SecurityAlgorithms.HmacSha256Signature
-        );
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(JwtRegisteredClaimNames.FamilyName, user.Name),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
-        // Create claims
-        var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(JwtRegisteredClaimNames.FamilyName, user.Name),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        // Generate the token
-        var securityToken = new JwtSecurityToken(
-            issuer: _jwtSettings.Issuer,
-            audience: _jwtSettings.Audience,
-            expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
-            signingCredentials: signingCredentials,
-            claims: claims
-        );
-
-        // Return the token
-        return new JwtSecurityTokenHandler().WriteToken(securityToken);
+    if (!string.IsNullOrEmpty(user.Role))
+    {
+        claims.Add(new Claim(ClaimTypes.Role, user.Role));
     }
+
+    var securityToken = new JwtSecurityToken(
+        issuer: _jwtSettings.Issuer,
+        audience: _jwtSettings.Audience,
+        expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
+        signingCredentials: signingCredentials,
+        claims: claims
+    );
+
+    return new JwtSecurityTokenHandler().WriteToken(securityToken);
+}
 }

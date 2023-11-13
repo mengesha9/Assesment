@@ -1,96 +1,80 @@
 using Moq;
 using Assesment.Application.Contracts.Persistence;
 using Assesment.Domain.Entites;
+using Assesment.Infrastructure.PasswordService;
 
-namespace SocialSync.Application.Tests.Mocks;
-    public class MockPostRepository
+namespace Assesment.Application.Tests.Mocks;
+
+public class MockCategoryRepository
+{
+    public static Mock<ICatagoryRepository> GetMockCategoryRepository()
     {
-        public static Mock<ICatagoryRepository> GetPostRepository()
-        {
-            var catagory = new List<Catagory>
+
+        var categorys = new List<Category>{
+            new Category
             {
-                new Post
-                {
-                    Id = 1,
-                    UserId = 2,
-                    Content = "First Post",
-                    CreatedAt = DateTime.UtcNow.Date,
-                    LastModified = DateTime.UtcNow.Date
-                },
-                new Post
-                {
-                    Id = 2,
-                    UserId = 3,
-                    Content = "Second Post #tag1",
-                    CreatedAt = DateTime.UtcNow.Date,
-                    LastModified = DateTime.UtcNow.Date
-                },
-                new Post
-                {
-                    Id = 3,
-                    UserId = 2,
-                    Content = "Third Post",
-                    CreatedAt = DateTime.UtcNow.Date,
-                    LastModified = DateTime.UtcNow.Date
-                },
-                new Post
-                {
-                    Id = 4,
-                    UserId = 1,
-                    Content = "Fourth Post #tag2",
-                    CreatedAt = DateTime.UtcNow.Date,
-                    LastModified = DateTime.UtcNow.Date
-                }
-            };
+                Id = 1,
+                Name = "user1"
+                Description = "phone catagory"
 
-            var postRepo = new Mock<IPostRepository>();
+            }
+            new Category
+            {
+                Id = 2,
+                Name = "user2"
+                Description = "Computer catagory"
 
-            postRepo.Setup(repo => repo.AddAsync(It.IsAny<Post>()))
-                .ReturnsAsync((Post post) =>
-                {
-                    post.Id = posts.Count + 1;
-                    posts.Add(post);
-                    return post;
-                });
+            }
+            new Category
+            {
+                Id = 3,
+                Name = "user3"
+                Description = "Tv catagory"
 
-        postRepo.Setup(repo => repo.GetAsync(It.IsAny<int>()))
-                .ReturnsAsync((int id) => posts.FirstOrDefault(p => p.Id == id));
+            }
 
-            postRepo.Setup(repo => repo.GetAsync())
-                .ReturnsAsync(posts);
+        };
+        var categoryRepo = new Mock<ICatagoryRepository>();
 
-            postRepo.Setup(repo => repo.UpdateAsync(It.IsAny<Post>()))
-                .Callback((Post p) =>
-                {
-                    var existingPost = posts.FirstOrDefault(q => q.Id == p.Id);
-                    if (existingPost != null)
-                    {
-                        existingPost.Content = p.Content;
-                        existingPost.UserId = p.UserId;
+        categoryRepo.Setup(repo => repo.AddAsync(It.IsAny<Category>))
+                   .ReturnsAsync((Category p))=>{
+                    p.Id = categorys.Count+1;
+                    categorys.Add(P);
+                    return p;
+                   }
+
+        categoryRepo.setup(repo=> repo.GetAsync(It.IsAny<int>))
+                    .ReturnsAsync((int id))=>{
+                        var result = categorys.FirstOrDefault(p=>p.Id==id);
+                        return result;
+                    }  
+        categoryRepo.setup(repo=> repo.GetAsync())
+            .ReturnsAsync(categorys);
+
+        categoryRepo.Setup(repo=> repo.UpdateAsync(It.IsAny<Category>))
+                   .Callback((Category p))=>{
+                    var result = categorys.FirstOrDefault(x=>x.Id==p.Id);
+                    if(rsutl != null){
+                        result.Description = p.Description;
+                        result.Name = p.Name;
                     }
-                });
 
-            postRepo.Setup(repo => repo.DeleteAsync(It.IsAny<Post>()))
-                .Callback((Post q) =>
-                {
-                    posts.RemoveAll(p => p.Id == q.Id);
-                });
+                   } 
 
-            postRepo.Setup(repo => repo.GetPostsByTagsAsync(It.IsAny<List<string>>()))
-                .ReturnsAsync((List<string> tags) => posts.Where(p => tags.Any(t => p.Content.Contains(t))).ToList());
+        categoryRepo.Setup(repo=> repo.DeleteAsync(It.IsAny<Category>)) 
+                    .ReturnsAsync((Category p))  =>{
+                        categorys.RemoveAll(x=> x.Id == p.Id);
+                    } 
+        categoryRepo.setup(repo=> repo.GetNameAsync(It.IsAny<Category>))
+            .ReturnsAsync((string Name))=>{
+                var result = categorys.FirstOrDefault(p=>p.Name==Name);
+                return result;
+            }                
+                     
 
-
-            postRepo.Setup(repo => repo.GetPostsByUserIdAsync(It.IsAny<int>()))
-                .ReturnsAsync((int userId) => posts.Where(p => p.UserId == userId).ToList());
-
-            postRepo.Setup(repo => repo.ExistsAsync(It.IsAny<int>()))
-                .ReturnsAsync((int id) => {
-                    var post = posts.FirstOrDefault(p=> p.Id == id);
-                    return post!=null;
-                });
-
-
-            return postRepo;
-        }
+        return categoryRepo;
     }
+}
+
+
 

@@ -20,7 +20,22 @@ public class CatagoryUpdateDtoValidate : AbstractValidator<CatagoryUpdateDto>
                 }
                 return true;
              });
-    
+        RuleFor(u => u.Name)
+            .NotEmpty()
+            .WithMessage("{PropertyName} is required.")
+            .MaximumLength(20)
+            .WithMessage("{PropertyName} must not exceed 20 characters.")
+            .MinimumLength(3)
+            .WithMessage("{PropertyName} must be at least 3 characters.");
+
+        RuleFor(u => u.Description)
+            .NotEmpty()
+            .WithMessage("{PropertyName} is required.")
+            .MaximumLength(1500)
+            .WithMessage("{PropertyName} must not exceed 1500 characters.")
+            .MinimumLength(100)
+            .WithMessage("{PropertyName} must be at least 100 characters.");
+     
     }
 
 }

@@ -1,4 +1,4 @@
-using Assesment.Application.DTOs.Product;
+using Assesment.Application.DTOs.Products;
 using MediatR;
 
 namespace Assesment.Application.Features.Product.Request.command;

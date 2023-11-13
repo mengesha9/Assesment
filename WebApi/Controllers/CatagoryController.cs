@@ -1,7 +1,7 @@
 
 
 using Assesment.Application.DTOs.Catagory;
-using Assesment.Application.DTOs.Product;
+using Assesment.Application.DTOs.Products;
 using Assesment.Application.Features.Catagory.Request.Command;
 using Assesment.Application.Features.Catagory.Request.Querie;
 using Assesment.Application.Features.Product.Request.command;
@@ -45,7 +45,7 @@ public class CatagoryController:ControllerBase
     }
 
 
-    [HttpPost(template:"Update")]
+    [HttpPost(template:"Create")]
       public async Task<ActionResult> Add([FromBody] CatagoryCreateDto request)
     {
         var response = await _mediator.Send(new CatagoryCreateCommand{CatagoryCreateDto = request });

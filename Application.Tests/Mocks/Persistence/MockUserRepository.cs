@@ -14,47 +14,37 @@ public class MockUserRepository
         {
             new User
             {
-                FirstName = "User1",
-                LastName = "User1",
+                Name = "User1",
                 Email = "User1@gmail.com",
-                Username = "User1",
                 Password = _passwordHasher.HashPassword("User1password"),
-                Phone = "1234567890",
                 Id = 1
             },
             new User
             {
-                FirstName = "User2",
-                LastName = "User2",
+                Name = "User2",
                 Email = "User2@gmail.com",
-                Username = "User2",
                 Password = _passwordHasher.HashPassword("User2password"),
-                Phone = "1234567890",
                 Id = 2
             },
             new User
             {
-                FirstName = "User3",
-                LastName = "User3",
+                Name = "User3",
                 Email = "user3@gmail.com",
-                Username = "User3",
                 Password = _passwordHasher.HashPassword("User3password"),
-                Phone = "1234567890",
                 Id = 3
             }
         };
 
-        var userRepository = new Mock<IUserRepository>();
+        var userRepo = new Mock<IUserRepository>();
 
-        userRepository
+        userRepo
             .Setup(repo => repo.GetAsync(It.IsAny<int>()))
             .ReturnsAsync((int id) => users.FirstOrDefault(u => u.Id == id));
 
-        userRepository.Setup(repo => repo.GetAsync()).ReturnsAsync(users);
+        userRepo.Setup(repo => repo.GetAsync()).ReturnsAsync(users);
 
-        userRepository
+        userRepo
             .Setup(repo => repo.AddAsync(It.IsAny<User>()))
-            // Add the user to the list and return the user with the new Id
             .ReturnsAsync(
                 (User user) =>
                 {
@@ -64,7 +54,7 @@ public class MockUserRepository
                 }
             );
 
-        userRepository
+        userRepo
             .Setup(repo => repo.UpdateAsync(It.IsAny<User>()))
             .Callback(
                 (User user) =>
@@ -77,7 +67,7 @@ public class MockUserRepository
                 }
             );
 
-        userRepository
+        userRepo
             .Setup(repo => repo.DeleteAsync(It.IsAny<User>()))
             .Callback(
                 (User user) =>
@@ -90,18 +80,18 @@ public class MockUserRepository
                 }
             );
 
-        userRepository
+        userRepo
             .Setup(repo => repo.UsernameExists(It.IsAny<string>()))
-            .ReturnsAsync((string username) => users.Any(u => u.Username == username));
+            .ReturnsAsync((string username) => users.Any(u => u.Name == username));
 
-        userRepository
+        userRepo
             .Setup(repo => repo.EmailExists(It.IsAny<string>()))
             .ReturnsAsync((string email) => users.Any(u => u.Email == email));
 
-        userRepository
-            .Setup(repo => repo.GetByUsername(It.IsAny<string>()))
-            .ReturnsAsync((string username) => users.FirstOrDefault(u => u.Username == username));
-
-        return userRepository;
+        
+        return userRepo;
     }
 }
+
+
+
