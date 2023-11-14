@@ -1,4 +1,8 @@
 using Microsoft.OpenApi.Models;
+using Assesment.Application;
+using Assesment.Infrastructure;
+using Assesment.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +16,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 // builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // builder.Services.AddScoped<IUserService, UserService>();
 
@@ -21,6 +24,7 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddPersistence(builder.Configuration);
+
 builder.Services.AddSwaggerGen(
     c =>  {
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -53,9 +57,46 @@ builder.Services.AddSwaggerGen(
     }
 );
 
+
+// var configuration = new ConfigurationBuilder()
+//         .SetBasePath(Directory.GetCurrentDirectory())
+//         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//         .Build();
+// var jwtSettings = new JwtSettings();
+// configuration.GetSection(JwtSettings.SectionName).Bind(jwtSettings);
+// jwtSettings.Configuration = configuration;
+
+
+
+// builder.Services.AddAuthentication(options =>
+// {
+//     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+// })
+// .AddJwtBearer(options =>
+// {
+
+    
+
+//     options.TokenValidationParameters = new TokenValidationParameters
+    // {
+    //     ValidateIssuer = true,
+    //     ValidateAudience = true,
+    //     ValidateIssuerSigningKey = true,
+    //     ValidIssuer = jwtSettings.Issuer,
+    //     ValidAudience = jwtSettings.Audience,
+    //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
+    // };
+// });
+
+// builder.Services.AddAuthorization(options =>
+// {
+//     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+// });
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -63,7 +104,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,6 +1,7 @@
 
 using Assesment.Application.DTOs.Common;
-using Assesment.Application.DTOs.Product;
+using Assesment.Application.DTOs;
+using Assesment.Application.DTOs.Products;
 using Assesment.Domain.Common;
 using Assesment.Domain.Entites;
 using AutoMapper;

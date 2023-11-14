@@ -1,8 +1,9 @@
 
 
-using Assesment.Application.DTOs.Product;
+using Assesment.Application.DTOs.Products;
 using Assesment.Application.Features.Product.Request.command;
 using Assesment.Application.Features.Product.Request.Querie;
+using Assesment.Application.Features.Products.Request.command;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,22 @@ public class ProudctController:ControllerBase
         return Ok(response);
     }
 
+     [HttpGet(template:"Search")]
+    public async Task<ActionResult<ProductDto>> Get(string  name)
+    {
+        var response = await _mediator.Send(new SearchProductRequest{Name = name});
+        return Ok(response);
+    }
+
+    [HttpGet(template:"Book")]
+    public async Task<ActionResult<ProductDto>> Book(int id,  int quantity)
+    {
+        var response = await _mediator.Send(new ProductBookingRequest{Id=id,Quantity=quantity});
+        return Ok(response);
+    }
+    
+    
+
     [HttpPatch(template:"Update")]
       public async Task<ActionResult> Update([FromBody] ProductUpdateDto request)
     {
@@ -42,10 +59,10 @@ public class ProudctController:ControllerBase
     }
 
 
-    [HttpPost(template:"Update")]
-      public async Task<ActionResult> Add([FromBody] ProductCreateDto ProductCreateDto )
+    [HttpPost(template:"Create")]
+      public async Task<ActionResult> Add([FromBody] ProductDto ProductCreateDto )
     {
-        var response = await _mediator.Send(new ProductCreateCommand{ProductCreateDto = ProductCreateDto });
+        var response = await _mediator.Send(new ProductCreateCommand{ProductDto = ProductCreateDto });
         return Ok(response);
     }
 
@@ -58,3 +75,4 @@ public class ProudctController:ControllerBase
 
 
 }
+

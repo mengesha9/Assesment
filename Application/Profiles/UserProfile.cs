@@ -4,9 +4,9 @@ using Assesment.Application.DTOs.User;
 using Assesment.Domain.Entites;
 using AutoMapper;
 namespace Assesment.Application.Profiles;
-public class MappingProfile : Profile
+public class UserProfile : Profile
 {
-    public MappingProfile()
+    public UserProfile()
     {
         CreateMap<User, UserLoginDto>().ReverseMap();
         CreateMap<User, UserRegisterDto>().ReverseMap();

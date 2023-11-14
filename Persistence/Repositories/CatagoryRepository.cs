@@ -4,7 +4,7 @@ using AutoMapper.Configuration.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Assesment.Persistence.Repositoties;
-public class CatagoryRepository: GenericRespositoty<Catagory>, ICatagoryRepository
+public class CatagoryRepository: GenericRespositoty<Category>, ICatagoryRepository
 {
     private readonly AssesmentApiDbContext _context;
     public CatagoryRepository(AssesmentApiDbContext context) :base(context)
@@ -12,12 +12,11 @@ public class CatagoryRepository: GenericRespositoty<Catagory>, ICatagoryReposito
         _context =context;
     }
 
-
-    public async Task<Catagory> GetNameAsync(string Name)
+    public async Task<Category> GetNameAsync(string Name)
     {
-        var result = await _context.Catagories.FirstOrDefaultAsync(x=> x.Name == Name);
-        
+        var result = await _context.Categories.FirstOrDefaultAsync(x=> x.Name == Name);
         return result;
     }
 
+   
 }

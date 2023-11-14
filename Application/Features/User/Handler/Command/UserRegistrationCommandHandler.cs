@@ -63,9 +63,9 @@ public class UserRegistrationUserCommandHandler
             };
         }
 
-        userExists = await _userRepository.EmailExists(request.UserRegisterDto.Email);
+        var emailExist = await _userRepository.EmailExists(request.UserRegisterDto.Email);
 
-        if (userExists == null)
+        if (emailExist )
         {
             return new CommonResponse<UserLoggedInDto>
             {
@@ -74,7 +74,7 @@ public class UserRegistrationUserCommandHandler
                 Error = new List<string> { "Email Exists." }
             };
         }
-        var createdUser = _mapper.Map<User>(request.UserRegisterDto);
+        var createdUser = _mapper.Map<Assesment.Domain.Entites.User>(request.UserRegisterDto);
         createdUser.Password = _passwordHasher.HashPassword(createdUser.Password);
 
         createdUser = await _userRepository.AddAsync(createdUser);

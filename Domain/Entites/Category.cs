@@ -2,7 +2,7 @@ using Assesment.Domain.Common;
 
 namespace Assesment.Domain.Entites;
 
-public class Catagory : BaseDomainEntity
+public class Category : BaseDomainEntity
 {
     public string Name {get;set;}
     public string Description {get;set;}

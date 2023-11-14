@@ -1,7 +1,7 @@
 
 
 using Assesment.Application.Contracts.Persistence;
-using Assesment.Application.DTOs.Product.Validation;
+using Assesment.Application.DTOs.Products.Validation;
 using Assesment.Application.Features.Product.Request.command;
 using Assesment.Domain.Entites;
 using AutoMapper;
@@ -32,7 +32,6 @@ public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand,
         }
         var product = _mapper.Map<Product>(request.ProductUpdateDto);
         await _productRepository.UpdateAsync(product);
-        await _productRepository.SaveChangesAsync();
         return Unit.Value;
     }
 }

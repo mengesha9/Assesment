@@ -6,8 +6,6 @@ using AutoMapper;
 using MediatR;
 using Assesment.Application.Common.Responses;
 using Assesment.Application.DTOs.User.Validation;
-using Assesment.Application.DTOs.User;
-using Assesment.Application.DTOs.User;
 
 namespace Assesment.Application.Features.Authentication.Handlers.Queries;
 
@@ -51,8 +49,8 @@ public class UserLoginCommandHandler: IRequestHandler<UserLoginCommand, CommonRe
         }
 
         // Check user existence and password
-        var existingUser = await _userRepository.EmailExists(request.UserLoginDto.Email);
-        if (existingUser == null)
+        var existingUser = await _userRepository.GetByEmail(request.UserLoginDto.Email);
+        if (existingUser==null)
         {
             return new CommonResponse<UserLoggedInDto>
             {
@@ -76,8 +74,9 @@ public class UserLoginCommandHandler: IRequestHandler<UserLoginCommand, CommonRe
                 Error = new List<string> { "Username or Password is incorrect." }
             };
         }
-        var User = _mapper.Map<UserDto>(existingUser);
-        var token = _jwtGenerator.Generate(existingUser);
+        var existuser  =await  _userRepository.GetByEmail(request.UserLoginDto.Email);
+        var User = _mapper.Map<UserDto>(existuser);
+        var token = _jwtGenerator.Generate(existuser);
 
         return new CommonResponse<UserLoggedInDto>
         {

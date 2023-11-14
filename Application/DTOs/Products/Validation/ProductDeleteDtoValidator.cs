@@ -3,7 +3,7 @@
 using Assesment.Application.Contracts.Persistence;
 using FluentValidation;
 
-namespace Assesment.Application.DTOs.Product.Validation;
+namespace Assesment.Application.DTOs.Products.Validation;
 public class ProductDeleteDtoValidator:AbstractValidator<ProductDeleteDto>
 {
     private readonly IProductRepository _productRepository;

@@ -1,12 +1,11 @@
 
 
 using MediatR;
-using Assesment.Application.Features.Product.Request.command;
+using Assesment.Application.Features.Products.Request.command;
 using Assesment.Application.Contracts.Persistence;
-using Assesment.Application.DTOs.Product.Validation;
+using Assesment.Application.DTOs.Products.Validation;
 using AutoMapper;
-using Assesment.Application.DTOs.Product;
-namespace Assesment.Application.Features.Product.Handler.Command;
+namespace Assesment.Application.Features.Products.Handler.Command;
 
 public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand, Unit>
 {
@@ -24,14 +23,13 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
     {
 
         var vallidate = new ProductCreateDtoValidator(_productRepository,_catagoryRepository);
-        var result = await vallidate.ValidateAsync(request.ProductCreateDto);
+        var result = await vallidate.ValidateAsync(request.ProductDto);
         if(!result.IsValid){
             return Unit.Value;
 
         }
-        var product = _mapper.Map<Product>(request.ProductCreateDto);
+        var product = _mapper.Map<Assesment.Domain.Entites.Product>(request.ProductDto);
         await _productRepository.AddAsync(product);
-        await _productRepository.SaveChangesAsync();
         return Unit.Value;
 
     }

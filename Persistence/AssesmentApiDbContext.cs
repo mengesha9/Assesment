@@ -7,7 +7,7 @@ namespace Assesment.Persistence
     public class AssesmentApiDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<Catagory> Catagories { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users {get;set;}
 
         public AssesmentApiDbContext(DbContextOptions<AssesmentApiDbContext> options) : base(options)
@@ -16,8 +16,10 @@ namespace Assesment.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfigurationsFromAssembly(typeof(AssesmentApiDbContext).Assembly);
+
+
             base.OnModelCreating(builder);
-            
              
              builder.Entity<User>()
                 .HasMany(u => u.Products)
@@ -29,6 +31,8 @@ namespace Assesment.Persistence
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
         }
+
+    
     }
 }
 

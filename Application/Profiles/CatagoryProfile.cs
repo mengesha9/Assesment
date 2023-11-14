@@ -8,11 +8,11 @@ public  class CatagoryProfile:Profile
 {
     public CatagoryProfile()
     {
-        CreateMap<Catagory, CatagoryDto>().ReverseMap();
-        CreateMap<Catagory, CatagoryCreateDto>().ReverseMap(); 
-        CreateMap<Catagory,CatagoryDeleteDto>().ReverseMap();
-        CreateMap<Catagory,CatagoryUpdateDto>().ReverseMap();
-        CreateMap<Catagory,CatagoryGetDto>().ReverseMap();
+        CreateMap<Category, CatagoryDto>().ReverseMap();
+        CreateMap<Category, CatagoryCreateDto>().ReverseMap(); 
+        CreateMap<Category,CatagoryDeleteDto>().ReverseMap();
+        CreateMap<Category,CatagoryUpdateDto>().ReverseMap();
+        CreateMap<Category,CatagoryGetDto>().ReverseMap();
 
     }
 }

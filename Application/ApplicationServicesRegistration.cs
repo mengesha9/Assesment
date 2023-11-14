@@ -3,17 +3,15 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Assesment.Application
+namespace Assesment.Application;
+
+public static class ApplicationServicesRegistration
 {
-    public static class ApplicationServicesRegistration
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplication(this Microsoft.Extensions.DependencyInjection.IServiceCollection services)
-        {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-            return services;
-        }
+        return services;
     }
 }
