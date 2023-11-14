@@ -16,8 +16,10 @@ namespace Assesment.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfigurationsFromAssembly(typeof(AssesmentApiDbContext).Assembly);
+
+
             base.OnModelCreating(builder);
-            
              
              builder.Entity<User>()
                 .HasMany(u => u.Products)

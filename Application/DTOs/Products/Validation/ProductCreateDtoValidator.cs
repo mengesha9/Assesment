@@ -47,10 +47,10 @@ public class ProductCreateDtoValidator : AbstractValidator<ProductDto>
             .WithMessage("{PropertyName} must be at least 3 characters.");   
         RuleFor(u=>u.Pricing) 
               .GreaterThan(0)   
-              .WithMessage("{PropertyName} must be greater than 0")
+              .WithMessage("{PropertyName} must be greater than 0");
         RuleFor(u=>u.Availability) 
-              .GreaterThanOrEqual(0)   
-              .WithMessage("{PropertyName} must be greater than or  equal to 0")      
+              .GreaterThan(0)   
+              .WithMessage("{PropertyName} must be greater than or  equal to 0");      
               
     
     }

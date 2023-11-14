@@ -2,11 +2,8 @@ using Microsoft.OpenApi.Models;
 using Assesment.Application;
 using Assesment.Infrastructure;
 using Assesment.Persistence;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Assesment.Infrastructure.JWT;
-using Inststructrue
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,7 +16,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 // builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // builder.Services.AddScoped<IUserService, UserService>();
 
@@ -28,6 +24,7 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddPersistence(builder.Configuration);
+
 builder.Services.AddSwaggerGen(
     c =>  {
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -61,32 +58,41 @@ builder.Services.AddSwaggerGen(
 );
 
 
+// var configuration = new ConfigurationBuilder()
+//         .SetBasePath(Directory.GetCurrentDirectory())
+//         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//         .Build();
+// var jwtSettings = new JwtSettings();
+// configuration.GetSection(JwtSettings.SectionName).Bind(jwtSettings);
+// jwtSettings.Configuration = configuration;
 
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = "your-issuer",
-        ValidAudience = "your-audience",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes()
-    };
 
+// builder.Services.AddAuthentication(options =>
+// {
+//     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+// })
+// .AddJwtBearer(options =>
+// {
 
-});
+    
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-});
+//     options.TokenValidationParameters = new TokenValidationParameters
+    // {
+    //     ValidateIssuer = true,
+    //     ValidateAudience = true,
+    //     ValidateIssuerSigningKey = true,
+    //     ValidIssuer = jwtSettings.Issuer,
+    //     ValidAudience = jwtSettings.Audience,
+    //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
+    // };
+// });
+
+// builder.Services.AddAuthorization(options =>
+// {
+//     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+// });
 
 
 var app = builder.Build();
